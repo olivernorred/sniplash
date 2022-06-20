@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<title>SNIPLASH</title>
+	<link rel="stylesheet" href="stylesheet.css">
+	<link rel="shortcut icon" href="favicon.png" type="image/x-icon">
+
+	<!-- update the version number as needed -->
+	<script defer src="/__/firebase/9.8.3/firebase-app-compat.js"></script>
+	<!-- include only the Firebase features as you need -->
+	<script defer src="/__/firebase/9.8.3/firebase-database-compat.js"></script>
+	<script defer src="/__/firebase/9.8.3/firebase-firestore-compat.js"></script>
+	<script defer src="/__/firebase/9.8.3/firebase-storage-compat.js"></script>
+	<script defer src="/__/firebase/9.8.3/firebase-analytics-compat.js"></script>
+
+	<script defer src="/__/firebase/init.js?useEmulator=true"></script>
+
+
+</head>
+
+<body>
+	<div id="createorjoin">
+		<label for="username">your name:</label>
+		<input type="text" name="username" id="username" autocomplete="off" onkeypress="return /[a-z]/i.test(event.key)">
+		<form onsubmit="return false;">
+			<label for="roomcode">room code:</label>
+			<input type="text" name="roomcode" id="roomcode" autocomplete="off" onkeypress="return /[a-z]/i.test(event.key)" maxlength="4">
+			<input type="submit" value="join room" id="joinroombutton">
+		</form>
+		or:
+		<button id="createroombutton">create room</button>
+	</div>
+
+
+	<script type="module">
+
+		import { initializeApp } from "https://www.gstatic.com/firebasejs/9.8.3/firebase-app.js";
+		import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.8.3/firebase-analytics.js";
+		import { getDatabase } from "https://www.gstatic.com/firebasejs/9.8.3/firebase-database.js"
+		import { getFirestore } from "https://www.gstatic.com/firebasejs/9.8.3/firebase-firestore.js"
+		const firebaseConfig = {
+			apiKey: "AIzaSyDROm599SFmst49GAE8v66_qYj5sOmfXHY",
+			authDomain: "sniplash.firebaseapp.com",
+			databaseURL: "https://sniplash-default-rtdb.firebaseio.com",
+			projectId: "sniplash",
+			storageBucket: "sniplash.appspot.com",
+			messagingSenderId: "1036848320861",
+			appId: "1:1036848320861:web:afdfbb8558dbcbeb7c18b4",
+			measurementId: "G-12BZYFK7RC"
+		};
+
+		// Initialize Firebase
+		const app = initializeApp(firebaseConfig);
+		const analytics = getAnalytics(app);
+		const database = getDatabase(app);
+	</script>
+	<script type="module" src="roomjoin.js"></script>
+</body>
+
+</html>
