@@ -1,3 +1,14 @@
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.8.3/firebase-app.js";
+import {
+    getDatabase,
+    ref,
+    set,
+    onValue,
+    child,
+    push,
+    update,
+} from "https://www.gstatic.com/firebasejs/9.8.3/firebase-database.js";
+
 const PROMPTS = `A brand of cereal for serial killers
 A bumper sticker a nudist would have
 A new, exciting rule for Monopoly: pass Go and collect __
@@ -20,6 +31,8 @@ What are mannequins always thinking?
 What keeps Adam Sandler making movies
 What word should never be followed by an exclamation mark?
 What's that blue liquid in Magic 8 balls?
-What Victoria's Secret models probably do right after a fashion show`.split('\n');
+What Victoria's Secret models probably do right after a fashion show`.split(
+    "\n"
+);
 
 console.log(PROMPTS);
