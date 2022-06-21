@@ -14,15 +14,7 @@
 	<!-- update the version number as needed -->
 	<script defer src="/__/firebase/9.8.3/firebase-app-compat.js"></script>
 	<!-- include only the Firebase features as you need -->
-	<script defer src="/__/firebase/9.8.3/firebase-auth-compat.js"></script>
 	<script defer src="/__/firebase/9.8.3/firebase-database-compat.js"></script>
-	<script defer src="/__/firebase/9.8.3/firebase-firestore-compat.js"></script>
-	<script defer src="/__/firebase/9.8.3/firebase-functions-compat.js"></script>
-	<script defer src="/__/firebase/9.8.3/firebase-messaging-compat.js"></script>
-	<script defer src="/__/firebase/9.8.3/firebase-storage-compat.js"></script>
-	<script defer src="/__/firebase/9.8.3/firebase-analytics-compat.js"></script>
-	<script defer src="/__/firebase/9.8.3/firebase-remote-config-compat.js"></script>
-	<script defer src="/__/firebase/9.8.3/firebase-performance-compat.js"></script>
 	<!-- 
       initialize the SDK after all desired features are loaded, set useEmulator to false
       to avoid connecting the SDK to running emulators.
@@ -35,6 +27,20 @@
 <body>
 	<p><a href="index.html">Leave room</a></p>
 	<p id="roomIDlabel"></p>
+
+	<div id="gamecontainer">
+
+		<div id="promptcard">
+			<h1>prompt:</h1>
+			<p id="prompt"></p>
+		</div>
+		<form onsubmit="return false;" id="playeranswer">
+			<label for="playeranswerfield">your answer:</label>
+			<input type="text" name="playeranswerfield" id="playeranswerfield">
+			<input type="submit" value="send">
+		</form>
+
+	</div>
 	<div id="chatcontainer">
 
 	</div>
