@@ -17,9 +17,38 @@ const chatcontainer = document.querySelector("#chatcontainer");
 // label room in page header
 document.querySelector("#roomIDlabel").innerHTML = `Room ID: <b>${roomID}</b>`;
 
-// "Graham has joined!"
-postMsg(roomID, godname, username + " has joined!");
-
+//check if navigated from weird page (room.html or non-sniplash)
+// if (
+//     document.referrer.includes("room") ||
+//     !document.referrer.includes("localhost")
+// ) {
+//     // user navigated from non homepage
+//     location.href = `/index.html`;
+// } else {
+// set "p1...p2...p3...p4...p5" to username
+onValue(ref(db, `rooms/${roomID}/players`), (snapshot) => {
+    let Players = snapshot.val();
+    let numberOfPlayers = Object.keys(Players).length;
+    let nameIsUnique = true;
+    for (const playernumber in Players) {
+        if (Players[playernumber] === username) {
+            nameIsUnique = false;
+        } else {
+            continue;
+        }
+    }
+    if (nameIsUnique) {
+        set(ref(db, `rooms/${roomID}/players/p${numberOfPlayers}`), username)
+            .then(() => {
+                // "Graham has joined!"
+                postMsg(roomID, godname, username + " has joined!");
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    }
+});
+// }
 
 // when the messages json tree changes, change MSGS local object to match and display as <p> elements in #chatcontainer element
 onValue(ref(db, `rooms/${roomID}/msgs`), (snapshot) => {
@@ -53,5 +82,16 @@ document.querySelector("#msgform").addEventListener("submit", () => {
 
 // "Graham has left."
 window.onbeforeunload = () => {
+    onValue(ref(db, `rooms/${roomID}/players`), (snapshot) => {
+        let Players = snapshot.val();
+        for (const playernumber in Players) {
+            if (Players[playernumber] === username) {
+                remove(ref(db, `rooms/${roomID}/players/${playernumber}`));
+            }
+        }
+        if (Object.keys(Players).length === 0) {
+            remove(ref(db, `rooms/${roomID}`));
+        }
+    });
     postMsg(roomID, godname, username + " has left.");
 };

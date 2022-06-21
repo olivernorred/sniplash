@@ -56,6 +56,7 @@ function changePrompt() {
         console.log("host is user: " + (hostname === username));
         if (hostname === username) {
             currentPrompt = randomFrom(PROMPTS);
+            set(ref(db, `rooms/${roomID}/answers`), {});
             set(ref(db, `rooms/${roomID}/currentPrompt`), currentPrompt)
                 .then(() => {
                     postMsg(roomID, godname, "Current prompt:" + currentPrompt);
@@ -72,6 +73,7 @@ function changePrompt() {
         }
     });
 }
+
 changePrompt();
 
 document.querySelector("#playeranswer").addEventListener("submit", () => {
@@ -80,13 +82,23 @@ document.querySelector("#playeranswer").addEventListener("submit", () => {
     set(
         ref(db, `rooms/${roomID}/answers/${username}`),
         document.querySelector("#playeranswerfield").value
-    );
+    )
+        .then(() => {
+            onValue(ref(db, `rooms/${roomID}/answers`), (snapshot) => {
+                let answers = snapshot.val();
+                if (Object.keys(answers).length == numberOfPlayers) {
+                    postMsg(roomID, godname, "Everyone has answered!");
+                    console.log("everyone has answered!");
+                    votingSession();
+                    return;
+                }
+            });
+        })
+        .catch((error) => {
+            console.log(error);
+        });
 });
 
-onValue(ref(db, `rooms/${roomID}/answers`), (snapshot) => {
-    let answers = snapshot.val();
-    console.log(numberOfPlayers);
-    if ((Object.keys(answers).length = numberOfPlayers)) {
-        postMsg(roomID, godname, "Everyone has answered!");
-    }
-});
+function votingSession() {
+
+}
